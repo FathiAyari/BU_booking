@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "760529994696",
+    "project_id": "umbrella-2075d",
+    "storage_bucket": "umbrella-2075d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760529994696:android:6eb9c70ed68bc6347976fd",
+        "android_client_info": {
+          "package_name": "com.example.umbrella"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3n6r-GVEe2-EYB-Lf0O_H0hSOcg9l3iM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
