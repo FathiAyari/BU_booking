@@ -20,19 +20,25 @@ class AuthServices {
     }
   }
 
-  Future<bool> signUp(String emailController, String passwordController, String name, String lastNameController, String role,
-      String countryIdController, String phoneNumberController) async {
+  Future<bool> signUp(
+      {required String email,
+      required String password,
+      required String name,
+      required String lastName,
+      required String country,
+      required String phoneNumber}) async {
     try {
-      await auth.createUserWithEmailAndPassword(email: emailController, password: passwordController);
+      await auth.createUserWithEmailAndPassword(email: email, password: password);
 
       await saveUser(Cuser(
+          status: 1,
           uid: user!.uid,
           name: name,
-          email: emailController,
-          role: role,
-          lastName: lastNameController,
-          phoneNumber: phoneNumberController,
-          countryId: ''));
+          email: email,
+          role: 'client',
+          lastName: lastName,
+          phoneNumber: phoneNumber,
+          country: country));
 
       return true;
     } on FirebaseException catch (e) {
@@ -73,7 +79,7 @@ class AuthServices {
       'phoneNumber': user.phoneNumber,
       'role': user.role,
       'lastName': user.lastName,
-      'countryId': user.countryId,
+      'countryId': user.country,
     });
   }
 

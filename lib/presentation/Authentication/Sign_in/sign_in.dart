@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:umbrella/presentation/Authentication/Sign_in/components/infoMessage.dart';
 import 'package:umbrella/presentation/components/input_field/input_field.dart';
 import 'package:umbrella/presentation/on_boarding/on_boarding_controller.dart';
+import 'package:umbrella/presentation/ressources/colors.dart';
 import 'package:umbrella/presentation/ressources/dimensions/constants.dart';
 import 'package:umbrella/presentation/ressources/routes/router.dart';
 import 'package:umbrella/services/AuthServices.dart';
@@ -82,30 +84,19 @@ class _LoginScreenState extends State<SignInScreen> {
                 key: _formkey,
                 child: Column(children: [
                   Container(
-                    height: 280,
+                    height: Constants.screenHeight * 0.4,
                     decoration: BoxDecoration(
+                      color: AppColors.primary,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(90),
                       ),
-                      gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
-                        Colors.blueGrey,
-                        Colors.indigo,
-                      ]),
                     ),
                     child: Center(
                         child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 50),
-                          child: Image(
-                            image: AssetImage('assets/images/logo.png'),
-                            height: 100,
-                            width: 100,
-                          ),
-                        ),
-                        // SizedBox(height: 10),
+                        Lottie.asset("assets/lotties/login.json", height: Constants.screenHeight * 0.2),
                         Container(
                           margin: EdgeInsets.only(top: 20),
                           child: Text(
@@ -129,7 +120,7 @@ class _LoginScreenState extends State<SignInScreen> {
                       textInputType: TextInputType.emailAddress,
                       prefixWidget: Icon(
                         Icons.email,
-                        color: Colors.indigo,
+                        color: AppColors.primary,
                       ),
                     ),
                   ),
@@ -139,7 +130,7 @@ class _LoginScreenState extends State<SignInScreen> {
                     textInputType: TextInputType.visiblePassword,
                     prefixWidget: Icon(
                       Icons.lock,
-                      color: Colors.indigo,
+                      color: AppColors.primary,
                     ),
                   ),
                   TextButton(
@@ -164,10 +155,13 @@ class _LoginScreenState extends State<SignInScreen> {
                           child: Row(
                             children: [
                               Expanded(
-                                  child: CupertinoButton(
+                                  child: ElevatedButton(
                                       child:
                                           Text('Connexion', style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic)),
-                                      color: Colors.indigo,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.primary,
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      ),
                                       onPressed: () {
                                         if (_formkey.currentState!.validate()) {
                                           setState(() {
@@ -215,8 +209,11 @@ class _LoginScreenState extends State<SignInScreen> {
                         children: [
                           Expanded(
                               child: TextButton(
+                            style: ButtonStyle(
+                              overlayColor: MaterialStateProperty.all(Colors.transparent),
+                            ),
                             child: Text("Besoin d'un nouveau compte?",
-                                style: TextStyle(color: Colors.indigo, fontSize: 14, fontStyle: FontStyle.italic)),
+                                style: TextStyle(color: AppColors.primary, fontSize: 14, fontStyle: FontStyle.italic)),
                             onPressed: () {
                               Get.to(SignupScreen());
                             },
