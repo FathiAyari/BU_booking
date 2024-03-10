@@ -4,8 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:umbrella/presentation/Authentication/Sign_in/components/infoMessage.dart';
+import 'package:umbrella/models/snack_bar_types.dart';
 import 'package:umbrella/presentation/components/input_field/input_field.dart';
+import 'package:umbrella/presentation/components/snack_bar.dart';
 import 'package:umbrella/presentation/on_boarding/on_boarding_controller.dart';
 import 'package:umbrella/presentation/ressources/colors.dart';
 import 'package:umbrella/presentation/ressources/dimensions/constants.dart';
@@ -178,7 +179,7 @@ class _LoginScreenState extends State<SignInScreen> {
                                                 AuthServices().saveUserLocally(value);
                                                 if (value.role == 'client') {
                                                   Navigator.pushNamed(context, AppRouting.homeClient);
-                                                } else if (value.role == 'manager') {
+                                                } else if (value.role == 'admin') {
                                                   Get.toNamed(AppRouting.homeManager);
                                                 } else {
                                                   Get.toNamed(AppRouting.homeAdmin);
@@ -188,14 +189,13 @@ class _LoginScreenState extends State<SignInScreen> {
                                               setState(() {
                                                 isLoading = false;
                                               });
-                                              InfoMessage(
-                                                press: () {
-                                                  Get.back();
-                                                },
-                                                lottieFile: "assets/lotties/error.json",
-                                                action: "Ressayer",
-                                                message: "Merci de vierfier vos données ",
-                                              ).show(context);
+                                              SnackBars(
+                                                      label: "Verifier l'email et le mot de passe",
+                                                      type: SnackBarsTypes.alert,
+                                                      onTap: () {},
+                                                      actionLabel: "Fermer",
+                                                      context: context)
+                                                  .showSnackBar();
                                             }
                                           });
                                         }

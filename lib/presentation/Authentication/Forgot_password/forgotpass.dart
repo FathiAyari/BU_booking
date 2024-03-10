@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:umbrella/presentation/Authentication/Sign_up/alertTask.dart';
+import 'package:umbrella/models/snack_bar_types.dart';
 import 'package:umbrella/presentation/components/input_field/input_field.dart';
+import 'package:umbrella/presentation/components/snack_bar.dart';
 import 'package:umbrella/presentation/ressources/colors.dart';
 import 'package:umbrella/presentation/ressources/dimensions/constants.dart';
 import 'package:umbrella/services/AuthServices.dart';
-
-import '../Sign_in/sign_in.dart';
 
 //import 'homescreen.dart';
 
@@ -104,23 +102,21 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
                                             loading = false;
                                           });
                                           if (value) {
-                                            alertTask(
-                                              lottieFile: "assets/lotties/success.json",
-                                              action: "Connecter",
-                                              message: "Consultez vos mail svp",
-                                              press: () {
-                                                Get.to(() => SignInScreen());
-                                              },
-                                            ).show(context);
+                                            SnackBars(
+                                                    label: "Conslter votre mail",
+                                                    type: SnackBarsTypes.success,
+                                                    onTap: () {},
+                                                    actionLabel: "Fermer",
+                                                    context: context)
+                                                .showSnackBar();
                                           } else {
-                                            alertTask(
-                                              lottieFile: "assets/lotties/error.json",
-                                              action: "Ressayer",
-                                              message: "compte n'existe pas ",
-                                              press: () {
-                                                Navigator.pop(context);
-                                              },
-                                            ).show(context);
+                                            SnackBars(
+                                                    label: "compte n'existe pas",
+                                                    type: SnackBarsTypes.alert,
+                                                    onTap: () {},
+                                                    actionLabel: "Fermer",
+                                                    context: context)
+                                                .showSnackBar();
                                           }
                                         });
                                       }

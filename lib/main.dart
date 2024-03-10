@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Umbrella ',
+      title: 'ParaZone ',
       onGenerateRoute: AppRouting.generateRoute,
       initialRoute: AppRouting.splashScreen,
     );
