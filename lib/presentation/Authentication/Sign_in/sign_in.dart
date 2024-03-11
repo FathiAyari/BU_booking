@@ -178,9 +178,12 @@ class _LoginScreenState extends State<SignInScreen> {
                                               AuthServices().getUserData().then((value) {
                                                 AuthServices().saveUserLocally(value);
                                                 if (value.role == 'client') {
-                                                  Navigator.pushNamed(context, AppRouting.homeClient);
-                                                } else if (value.role == 'admin') {
-                                                  Get.toNamed(AppRouting.homeManager);
+                                                  print("here a client ");
+                                                  if (value.status != 1) {
+                                                    Navigator.pushNamed(context, AppRouting.deletedAccount);
+                                                  } else {
+                                                    Navigator.pushNamed(context, AppRouting.homeClient);
+                                                  }
                                                 } else {
                                                   Get.toNamed(AppRouting.homeAdmin);
                                                 }

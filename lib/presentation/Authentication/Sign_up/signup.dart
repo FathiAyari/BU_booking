@@ -200,7 +200,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                                     if (value.role == 'client') {
                                                       Navigator.pushNamed(context, AppRouting.homeClient);
                                                     } else if (value.role == 'admin') {
-                                                      Navigator.pushNamed(context, AppRouting.homeManager);
+                                                      Navigator.pushNamed(context, AppRouting.homeAdmin);
                                                     }
                                                   });
                                                 } else {

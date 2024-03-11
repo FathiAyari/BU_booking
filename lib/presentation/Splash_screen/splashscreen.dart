@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
+import 'package:umbrella/models/User.dart';
 import 'package:umbrella/presentation/ressources/routes/router.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,15 +20,21 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+
     Timer(Duration(seconds: 3), () {
       if (seen == 1) {
         if (role != null) {
           if (role == 'client') {
-            Get.toNamed(AppRouting.homeClient);
-          } else if (role == 'admin') {
-            Get.toNamed(AppRouting.homeAdmin);
+            //get the status of the connected client 0 or 1
+            getDataOfUser().then((value) {
+              if (value.status != 1) {
+                Get.toNamed(AppRouting.deletedAccount);
+              } else {
+                Get.toNamed(AppRouting.homeClient);
+              }
+            });
           } else {
-            Get.toNamed(AppRouting.homeManager);
+            Get.toNamed(AppRouting.homeAdmin);
           }
         } else {
           Get.toNamed(AppRouting.login);
@@ -35,6 +43,12 @@ class _SplashScreenState extends State<SplashScreen> {
         Get.toNamed(AppRouting.onboarding);
       }
     });
+  }
+
+  Future<Cuser> getDataOfUser() async {
+    var user = GetStorage().read("user");
+    var userData = await FirebaseFirestore.instance.collection('users').doc(user['uid']).get();
+    return Cuser.fromJson(userData.data()!);
   }
 
   @override

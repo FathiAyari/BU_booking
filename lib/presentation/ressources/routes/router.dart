@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:umbrella/presentation/Authentication/Sign_in/sign_in.dart';
 import 'package:umbrella/presentation/Authentication/Sign_up/signup.dart';
 import 'package:umbrella/presentation/Splash_screen/splashscreen.dart';
+import 'package:umbrella/presentation/client/home_client.dart';
+import 'package:umbrella/presentation/deleted_account/deleted_account.dart';
 import 'package:umbrella/presentation/on_boarding/on_boarding_page.dart';
 
 class AppRouting {
@@ -11,7 +13,7 @@ class AppRouting {
   static final String onboarding = "/onboarding";
   static final String homeClient = "/home_client";
   static final String homeAdmin = "/home_admin";
-  static final String homeManager = "/home_manager";
+  static final String deletedAccount = "/deleted_account";
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
@@ -24,10 +26,10 @@ class AppRouting {
       case '/onboarding':
         return MaterialPageRoute(builder: (_) => OnBoardingPage());
       case '/home_client':
-      //return MaterialPageRoute(builder: (_) => HomePageClient());
-      case '/home_admin':
-      // return MaterialPageRoute(builder: (_) => AdmineHomeView());
-      case '/home_manager':
+        return MaterialPageRoute(builder: (_) => HomeClient());
+
+      case '/deleted_account':
+        return MaterialPageRoute(builder: (_) => DeletedAccount());
       // return MaterialPageRoute(builder: (_) => ManagerHomeView());
 
       default:
