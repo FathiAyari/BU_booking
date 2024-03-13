@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:umbrella/models/Umbrella.dart';
+import 'package:umbrella/presentation/Authentication/Sign_in/components/umbrellaWidget.dart';
 
 class Beach extends StatefulWidget {
   const Beach({Key? key}) : super(key: key);
@@ -14,46 +15,80 @@ class _BeachState extends State<Beach> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Expanded(
-          child: StreamBuilder(
-              stream: FirebaseFirestore.instance.collection('umbrellas').orderBy('index', descending: false).snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  List<Umbrella> umbrellas = [];
-                  for (var data in snapshot.data!.docs.toList()) {
-                    umbrellas.add(Umbrella.fromJson(data.data() as Map<String, dynamic>));
-                    print(data.data());
-                  }
-                  if (umbrellas.isNotEmpty) {
-                    return GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 1, crossAxisCount: 8, mainAxisSpacing: 5, crossAxisSpacing: 10),
-                      padding: EdgeInsets.all(1.0),
-                      itemCount: umbrellas.length,
-                      itemBuilder: (context, index) {
-                        if (index >= 136 && index <= 143) {
-                          return Divider(
-                            thickness: 20,
-                            color: Colors.white,
-                          );
-                        }
-                        return Container(
-                          decoration: BoxDecoration(color: Colors.green.withOpacity(0.5), borderRadius: BorderRadius.circular(5)),
-                          child: Center(child: Text("${umbrellas[index].idUmbrella}")),
-                        );
-                      },
-                    );
-                  } else {
-                    return Container();
-                  }
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+        body: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('umbrellas').orderBy('index', descending: false).snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<Umbrella> umbrellas = [];
+                for (var data in snapshot.data!.docs.toList()) {
+                  umbrellas.add(Umbrella.fromJson(data.data() as Map<String, dynamic>));
                 }
-              }),
-        ),
+                if (umbrellas.isNotEmpty) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: ListView(
+                          children: [
+                            GridView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 1, crossAxisCount: 8, mainAxisSpacing: 5, crossAxisSpacing: 10),
+                              padding: EdgeInsets.all(1.0),
+                              itemCount: umbrellas.length ~/ 2,
+                              itemBuilder: (context, index) {
+                                return UmbrellaWidget(umbrella: umbrellas[index]);
+                              },
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: List.generate(5, (index) {
+                                return Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.green,
+                                );
+                              }),
+                            ),
+                            GridView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 1, crossAxisCount: 8, mainAxisSpacing: 5, crossAxisSpacing: 10),
+                              padding: EdgeInsets.all(1.0),
+                              itemCount: umbrellas.length ~/ 2,
+                              itemBuilder: (context, index) {
+                                return UmbrellaWidget(
+                                    umbrella: umbrellas.sublist(umbrellas.length ~/ 2, umbrellas.length)[index]);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: Container(
+                          decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(5)),
+                          child: Transform.rotate(
+                              angle: 1.5708,
+                              child: Text(
+                                "Plage",
+                                style: TextStyle(color: Colors.white),
+                              )),
+                          alignment: Alignment.center,
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return Container();
+                }
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }),
       ),
     );
   }

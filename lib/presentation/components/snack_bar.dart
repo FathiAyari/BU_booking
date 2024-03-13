@@ -6,18 +6,11 @@ import 'package:umbrella/presentation/ressources/dimensions/constants.dart';
 class SnackBars {
   final BuildContext context;
   final SnackBarsTypes type;
-  final String? imagePath;
   final String label;
   final VoidCallback onTap;
   final String actionLabel;
 
-  SnackBars(
-      {required this.context,
-      required this.type,
-      this.imagePath,
-      required this.label,
-      required this.onTap,
-      required this.actionLabel});
+  SnackBars({required this.context, required this.type, required this.label, required this.onTap, required this.actionLabel});
   Color getRightColor(SnackBarsTypes type) {
     if (type == SnackBarsTypes.alert) {
       return Colors.red;
@@ -48,7 +41,6 @@ class SnackBars {
         height: Constants.screenHeight * 0.03,
         child: Row(
           children: [
-            if (imagePath != null) Image.asset("${this.imagePath}"),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: Constants.screenWidth * 0.015),
               child: Text("${this.label}"),

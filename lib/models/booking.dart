@@ -1,36 +1,48 @@
 class Booking {
   DateTime startDate;
+  DateTime DepositDate;
   DateTime endDate;
-  List<String> equipementsIds;
+  int sofa;
+  int bed;
   String umbrellaId;
-  double totalPrice;
+  num totalPrice;
   String clientId;
+  int status;
 
   Booking({
     required this.startDate,
+    required this.status,
     required this.clientId,
+    required this.DepositDate,
     required this.endDate,
-    required this.equipementsIds,
+    required this.sofa,
+    required this.bed,
     required this.umbrellaId,
     required this.totalPrice,
   });
 
   factory Booking.fromJson(Map<String, dynamic> json) {
     return Booking(
-      startDate: DateTime.parse(json['startDate']),
-      endDate: DateTime.parse(json['endDate']),
-      equipementsIds: List<String>.from(json['equipementsIds'] ?? []),
+      startDate: json['startDate'].toDate(),
+      endDate: json['endDate'].toDate(),
+      DepositDate: json['DepositDate'].toDate(),
       umbrellaId: json['umbrellaId'],
+      sofa: json['sofa'],
+      bed: json['bed'],
+      status: json['status'],
       clientId: json['clientId'],
-      totalPrice: json['totalPrice'].toDouble(),
+      totalPrice: json['totalPrice'],
     );
   }
   Map<String, dynamic> toJson() {
     return {
       'startDate': startDate,
+      'status': status,
       'endDate': endDate,
       'clientId': clientId,
-      'equipementsIds': equipementsIds,
+      'sofa': sofa,
+      'bed': bed,
+      'DepositDate': DepositDate,
       'umbrellaId': umbrellaId,
       'totalPrice': totalPrice,
     };

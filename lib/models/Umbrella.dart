@@ -1,6 +1,6 @@
 class Umbrella {
   String idUmbrella;
-  double price;
+  num price;
   int index;
 
   Umbrella({required this.idUmbrella, required this.index, required this.price});
