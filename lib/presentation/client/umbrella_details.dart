@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:umbrella/models/Umbrella.dart';
 import 'package:umbrella/models/booking.dart';
+import 'package:umbrella/presentation/admin/management_screen.dart';
 import 'package:umbrella/presentation/components/input_field/input_field.dart';
 import 'package:umbrella/presentation/ressources/colors.dart';
 import 'package:umbrella/presentation/ressources/dimensions/constants.dart';
@@ -137,7 +140,6 @@ class _UmbrellaDetailsState extends State<UmbrellaDetails> {
                             itemCount: bc.length,
                             itemBuilder: (context, index) {
                               return BookingWidget(
-                                widget: widget,
                                 booking: bc[index],
                               );
                             });
@@ -153,244 +155,246 @@ class _UmbrellaDetailsState extends State<UmbrellaDetails> {
                   }))
         ],
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: FloatingActionButton(
-          backgroundColor: AppColors.primary,
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Future<void> future = showModalBottomSheet<void>(
-              context: context,
-              isDismissible: true,
-              enableDrag: true,
-              builder: (BuildContext context) {
-                return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
-                  return Container(
-                    width: double.infinity,
-                    height: Constants.screenHeight,
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SingleChildScrollView(
-                        child: done
-                            ? Column(
-                                children: [
-                                  Lottie.asset("assets/lotties/success.json"),
-                                  Text(
-                                    "Votre demande a été envoyé pour l'administrateur",
-                                    style: TextStyle(color: AppColors.primary),
-                                  ),
-                                  ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.green,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(10.0), // Set the border radius here
-                                          )),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        "Fermer",
-                                        style: TextStyle(color: Colors.white),
-                                      ))
-                                ],
-                              )
-                            : Column(
-                                children: [
-                                  InputField(
-                                      prefixWidget: Icon(
-                                        Icons.chair,
-                                        color: AppColors.primary,
-                                      ),
-                                      label: "Nombre de lit : 0",
-                                      textInputType: TextInputType.number,
-                                      controller: bedController),
-                                  InputField(
-                                      prefixWidget: Icon(
-                                        Icons.chair_outlined,
-                                        color: AppColors.primary,
-                                      ),
-                                      label: " fauteuil de réalisateur : 0 ",
-                                      textInputType: TextInputType.number,
-                                      controller: sofaController),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          child: Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: Constants.screenWidth * 0.07),
-                                        child: ElevatedButton(
-                                            onPressed: () async {
-                                              final pickedDate = await showDatePicker(
-                                                context: context,
-                                                initialDate: startDate,
-                                                firstDate: DateTime(2000),
-                                                lastDate: DateTime(2025),
-                                              );
-                                              if (pickedDate != null) {
-                                                setState(() {
-                                                  startDate = pickedDate;
-                                                });
-                                              }
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: AppColors.primary,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(10.0), // Set the border radius here
-                                                )),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(1.0),
-                                              child: Text(
-                                                "Date debut \n ${DateFormat("yyyy/MM/dd").format(startDate)}",
-                                                style: TextStyle(color: Colors.white),
-                                              ),
-                                            )),
-                                      )),
-                                      Expanded(
-                                          child: Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: Constants.screenWidth * 0.07),
-                                        child: ElevatedButton(
-                                            onPressed: () async {
-                                              final pickedDate = await showDatePicker(
-                                                context: context,
-                                                initialDate: endDate,
-                                                firstDate: DateTime(2000),
-                                                lastDate: DateTime(2025),
-                                              );
-                                              if (pickedDate != null) {
-                                                setState(() {
-                                                  endDate = pickedDate;
-                                                });
-                                              }
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: AppColors.primary,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(10.0), // Set the border radius here
-                                                )),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(1.0),
-                                              child: Text(
-                                                "Date fin \n ${DateFormat("yyyy/MM/dd").format(endDate)}",
-                                                style: TextStyle(color: Colors.white),
-                                              ),
-                                            )),
-                                      )),
-                                    ],
-                                  ),
-                                  loading
-                                      ? Center(
-                                          child: CircularProgressIndicator(),
-                                        )
-                                      : Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: Constants.screenWidth * 0.07),
-                                          child: Container(
-                                            width: double.infinity,
-                                            child: ElevatedButton(
-                                                onPressed: () async {
-                                                  if (startDate.isAfter(endDate)) {
-                                                    Fluttertoast.showToast(
-                                                        msg: "La date de debut doit etre apres la date de fin de reservation",
-                                                        toastLength: Toast.LENGTH_SHORT,
-                                                        gravity: ToastGravity.CENTER,
-                                                        timeInSecForIosWeb: 1,
-                                                        backgroundColor: Colors.red,
-                                                        textColor: Colors.white,
-                                                        fontSize: 16.0);
-                                                  } else {
-                                                    setState(() {
-                                                      loading = true;
-                                                    });
-                                                    allowBooking().then((value) async {
-                                                      if (value) {
-                                                        var sofa = await FirebaseFirestore.instance
-                                                            .collection("equipement")
-                                                            .doc("sofa")
-                                                            .get();
-                                                        var bed = await FirebaseFirestore.instance
-                                                            .collection("equipement")
-                                                            .doc("bed")
-                                                            .get();
-
-                                                        num totalPrice = widget.umbrella.price;
-                                                        if (sofaController.text.isNotEmpty) {
-                                                          totalPrice += sofa.get('price') *
-                                                              int.parse(sofaController.text) *
-                                                              getDaysBetween(startDate, endDate);
-                                                        }
-                                                        if (bedController.text.isNotEmpty) {
-                                                          totalPrice += bed.get('price') *
-                                                              int.parse(bedController.text) *
-                                                              getDaysBetween(startDate, endDate);
-                                                        }
-                                                        Booking booking = Booking(
-                                                            DepositDate: DateTime.now(),
-                                                            startDate: startDate,
-                                                            status: 0,
-                                                            clientId: user['uid'],
-                                                            endDate: endDate,
-                                                            sofa:
-                                                                sofaController.text.isEmpty ? 0 : int.parse(sofaController.text),
-                                                            bed: bedController.text.isEmpty ? 0 : int.parse(bedController.text),
-                                                            umbrellaId: widget.umbrella.idUmbrella,
-                                                            totalPrice: totalPrice);
-                                                        FirebaseFirestore.instance
-                                                            .collection("booking")
-                                                            .add(booking.toJson())
-                                                            .then((value) {
-                                                          setState(() {
-                                                            done = true;
-                                                          });
-                                                        });
-                                                      } else {
-                                                        Fluttertoast.showToast(
-                                                            msg: "Reservation validé deja positionné sur la meme periode",
-                                                            toastLength: Toast.LENGTH_SHORT,
-                                                            gravity: ToastGravity.CENTER,
-                                                            timeInSecForIosWeb: 1,
-                                                            backgroundColor: Colors.red,
-                                                            textColor: Colors.white,
-                                                            fontSize: 16.0);
-                                                      }
-                                                      setState(() {
-                                                        loading = false;
-                                                      });
-                                                    });
-                                                  }
-                                                },
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor: Colors.green,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(10.0), // Set the border radius here
-                                                    )),
-                                                child: Text(
-                                                  "Ajouter",
-                                                  style: TextStyle(color: Colors.white),
-                                                )),
-                                          ),
-                                        ),
-                                ],
-                              ),
-                      ),
-                    ),
-                  );
-                });
-              },
-            );
-
-            future.then((void value) {
-              setState(() {
-                loading = false;
-                done = false;
-                startDate = DateTime.now();
-                endDate = DateTime.now();
-              });
-            });
-          },
+      floatingActionButton: user['role']=="client"?FloatingActionButton(
+        backgroundColor: AppColors.primary,
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
         ),
-      ),
+        onPressed: () {
+          Future<void> future = showModalBottomSheet<void>(
+            context: context,
+            isDismissible: true,
+            enableDrag: true,
+            builder: (BuildContext context) {
+              return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+                return Container(
+                  width: double.infinity,
+                  height: Constants.screenHeight,
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SingleChildScrollView(
+                      child: done
+                          ? Column(
+                              children: [
+                                Lottie.asset("assets/lotties/success.json"),
+                                Text(
+                                  "Votre demande a été envoyé pour l'administrateur",
+                                  style: TextStyle(color: AppColors.primary),
+                                ),
+                                ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.green,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10.0), // Set the border radius here
+                                        )),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      "Fermer",
+                                      style: TextStyle(color: Colors.white),
+                                    ))
+                              ],
+                            )
+                          : Column(
+                              children: [
+                                InputField(
+                                    prefixWidget: Icon(
+                                      Icons.chair,
+                                      color: AppColors.primary,
+                                    ),
+                                    label: "Nombre de lit : 0",
+                                    textInputType: TextInputType.number,
+                                    controller: bedController),
+                                InputField(
+                                    prefixWidget: Icon(
+                                      Icons.chair_outlined,
+                                      color: AppColors.primary,
+                                    ),
+                                    label: " fauteuil de réalisateur : 0 ",
+                                    textInputType: TextInputType.number,
+                                    controller: sofaController),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        child: Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: Constants.screenWidth * 0.07),
+                                      child: ElevatedButton(
+                                          onPressed: () async {
+                                            final pickedDate = await showDatePicker(
+                                              context: context,
+                                              initialDate: startDate,
+                                              firstDate: DateTime(2000),
+                                              lastDate: DateTime(2025),
+                                            );
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                startDate = pickedDate;
+                                              });
+                                            }
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: AppColors.primary,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0), // Set the border radius here
+                                              )),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(1.0),
+                                            child: Text(
+                                              "Date debut \n ${DateFormat("yyyy/MM/dd").format(startDate)}",
+                                              style: TextStyle(color: Colors.white),
+                                            ),
+                                          )),
+                                    )),
+                                    Expanded(
+                                        child: Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: Constants.screenWidth * 0.07),
+                                      child: ElevatedButton(
+                                          onPressed: () async {
+                                            final pickedDate = await showDatePicker(
+                                              context: context,
+                                              initialDate: endDate,
+                                              firstDate: DateTime(2000),
+                                              lastDate: DateTime(2025),
+                                            );
+                                            if (pickedDate != null) {
+                                              setState(() {
+                                                endDate = pickedDate;
+                                              });
+                                            }
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: AppColors.primary,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0), // Set the border radius here
+                                              )),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(1.0),
+                                            child: Text(
+                                              "Date fin \n ${DateFormat("yyyy/MM/dd").format(endDate)}",
+                                              style: TextStyle(color: Colors.white),
+                                            ),
+                                          )),
+                                    )),
+                                  ],
+                                ),
+                                loading
+                                    ? Center(
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    : Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: Constants.screenWidth * 0.07),
+                                        child: Container(
+                                          width: double.infinity,
+                                          child: ElevatedButton(
+                                              onPressed: () async {
+                                                if (startDate.isAfter(endDate)) {
+                                                  Fluttertoast.showToast(
+                                                      msg: "La date de debut doit etre apres la date de fin de reservation",
+                                                      toastLength: Toast.LENGTH_SHORT,
+                                                      gravity: ToastGravity.CENTER,
+                                                      timeInSecForIosWeb: 1,
+                                                      backgroundColor: Colors.red,
+                                                      textColor: Colors.white,
+                                                      fontSize: 16.0);
+                                                } else {
+                                                  setState(() {
+                                                    loading = true;
+                                                  });
+                                                  allowBooking().then((value) async {
+                                                    if (value) {
+                                                      var sofa = await FirebaseFirestore.instance
+                                                          .collection("equipement")
+                                                          .doc("sofa")
+                                                          .get();
+                                                      var bed = await FirebaseFirestore.instance
+                                                          .collection("equipement")
+                                                          .doc("bed")
+                                                          .get();
+
+                                                      num totalPrice = widget.umbrella.price;
+                                                      if (sofaController.text.isNotEmpty) {
+                                                        totalPrice += sofa.get('price') *
+                                                            int.parse(sofaController.text) *
+                                                            getDaysBetween(startDate, endDate);
+                                                      }
+                                                      if (bedController.text.isNotEmpty) {
+                                                        totalPrice += bed.get('price') *
+                                                            int.parse(bedController.text) *
+                                                            getDaysBetween(startDate, endDate);
+                                                      }
+                                                      Booking booking = Booking(
+                                                          DepositDate: DateTime.now(),
+                                                          startDate: startDate,
+                                                          status: 0,
+                                                          clientId: user['uid'],
+                                                          endDate: endDate,
+                                                          sofa:
+                                                              sofaController.text.isEmpty ? 0 : int.parse(sofaController.text),
+                                                          bed: bedController.text.isEmpty ? 0 : int.parse(bedController.text),
+                                                          umbrellaId: widget.umbrella.idUmbrella,
+                                                          totalPrice: totalPrice);
+                                                      FirebaseFirestore.instance
+                                                          .collection("booking")
+                                                          .add(booking.toJson())
+                                                          .then((value) {
+                                                        setState(() {
+                                                          done = true;
+                                                        });
+                                                      });
+                                                    } else {
+                                                      Fluttertoast.showToast(
+                                                          msg: "Reservation validé deja positionné sur la meme periode",
+                                                          toastLength: Toast.LENGTH_SHORT,
+                                                          gravity: ToastGravity.CENTER,
+                                                          timeInSecForIosWeb: 1,
+                                                          backgroundColor: Colors.red,
+                                                          textColor: Colors.white,
+                                                          fontSize: 16.0);
+                                                    }
+                                                    setState(() {
+                                                      loading = false;
+                                                    });
+                                                  });
+                                                }
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.green,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(10.0), // Set the border radius here
+                                                  )),
+                                              child: Text(
+                                                "Ajouter",
+                                                style: TextStyle(color: Colors.white),
+                                              )),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                    ),
+                  ),
+                );
+              });
+            },
+          );
+
+          future.then((void value) {
+            setState(() {
+              loading = false;
+              done = false;
+              startDate = DateTime.now();
+              endDate = DateTime.now();
+            });
+          });
+        },
+      ):
+      FloatingActionButton(onPressed: (){
+        Get.to(ManagementScreen(umbrella: widget.umbrella));
+      },
+        backgroundColor: AppColors.primary,
+        child:Icon(Icons.settings,color:Colors.white ,) ,),
     );
   }
 }
@@ -398,11 +402,11 @@ class _UmbrellaDetailsState extends State<UmbrellaDetails> {
 class BookingWidget extends StatelessWidget {
   const BookingWidget({
     super.key,
-    required this.widget,
+
     required this.booking,
   });
 
-  final UmbrellaDetails widget;
+
   final Booking booking;
 
   @override

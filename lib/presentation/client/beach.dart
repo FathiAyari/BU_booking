@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:umbrella/models/Umbrella.dart';
 import 'package:umbrella/presentation/Authentication/Sign_in/components/umbrellaWidget.dart';
+import 'package:umbrella/presentation/ressources/colors.dart';
+import 'package:umbrella/presentation/ressources/dimensions/constants.dart';
 
 class Beach extends StatefulWidget {
   const Beach({Key? key}) : super(key: key);
@@ -11,84 +15,116 @@ class Beach extends StatefulWidget {
 }
 
 class _BeachState extends State<Beach> {
+  var user=GetStorage().read('user');
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('umbrellas').orderBy('index', descending: false).snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                List<Umbrella> umbrellas = [];
-                for (var data in snapshot.data!.docs.toList()) {
-                  umbrellas.add(Umbrella.fromJson(data.data() as Map<String, dynamic>));
-                }
-                if (umbrellas.isNotEmpty) {
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: Constants.screenHeight * 0.1,
+                width: Constants.screenWidth,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppColors.primary.withOpacity(0.5)),
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: Row
+                    (
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: ListView(
+                      Text(
+                        "Bienvenue  : ${user['name'].toString().toUpperCase()}  ${user['lastName'].toString().toUpperCase()}",
+                        style: TextStyle(color: Colors.white, fontSize: 20,fontStyle: FontStyle.italic),
+                      ),
+                      Spacer(),
+                      Image.asset(user['role']=="admin" ?"assets/images/admin.png":"assets/images/user.png")
+
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance.collection('umbrellas').orderBy('index', descending: false).snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<Umbrella> umbrellas = [];
+                      for (var data in snapshot.data!.docs.toList()) {
+                        umbrellas.add(Umbrella.fromJson(data.data() as Map<String, dynamic>));
+                      }
+                      if (umbrellas.isNotEmpty) {
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            GridView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: 1, crossAxisCount: 8, mainAxisSpacing: 5, crossAxisSpacing: 10),
-                              padding: EdgeInsets.all(1.0),
-                              itemCount: umbrellas.length ~/ 2,
-                              itemBuilder: (context, index) {
-                                return UmbrellaWidget(umbrella: umbrellas[index]);
-                              },
+                            Expanded(
+                              child: ListView(
+                                children: [
+                                  GridView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                        childAspectRatio: 1, crossAxisCount: 8, mainAxisSpacing: 5, crossAxisSpacing: 10),
+                                    padding: EdgeInsets.all(1.0),
+                                    itemCount: umbrellas.length ~/ 2,
+                                    itemBuilder: (context, index) {
+                                      return UmbrellaWidget(umbrella: umbrellas[index]);
+                                    },
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: List.generate(5, (index) {
+                                      return Icon(
+                                        Icons.arrow_forward,
+                                        color: Colors.green,
+                                      );
+                                    }),
+                                  ),
+                                  GridView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                        childAspectRatio: 1, crossAxisCount: 8, mainAxisSpacing: 5, crossAxisSpacing: 10),
+                                    padding: EdgeInsets.all(1.0),
+                                    itemCount: umbrellas.length ~/ 2,
+                                    itemBuilder: (context, index) {
+                                      return UmbrellaWidget(
+                                          umbrella: umbrellas.sublist(umbrellas.length ~/ 2, umbrellas.length)[index]);
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: List.generate(5, (index) {
-                                return Icon(
-                                  Icons.arrow_forward,
-                                  color: Colors.green,
-                                );
-                              }),
-                            ),
-                            GridView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: 1, crossAxisCount: 8, mainAxisSpacing: 5, crossAxisSpacing: 10),
-                              padding: EdgeInsets.all(1.0),
-                              itemCount: umbrellas.length ~/ 2,
-                              itemBuilder: (context, index) {
-                                return UmbrellaWidget(
-                                    umbrella: umbrellas.sublist(umbrellas.length ~/ 2, umbrellas.length)[index]);
-                              },
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Container(
+                                decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(5)),
+                                child: Transform.rotate(
+                                    angle: 1.5708,
+                                    child: Text(
+                                      "Plage",
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                                alignment: Alignment.center,
+                              ),
                             ),
                           ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5),
-                        child: Container(
-                          decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(5)),
-                          child: Transform.rotate(
-                              angle: 1.5708,
-                              child: Text(
-                                "Plage",
-                                style: TextStyle(color: Colors.white),
-                              )),
-                          alignment: Alignment.center,
-                        ),
-                      ),
-                    ],
-                  );
-                } else {
-                  return Container();
-                }
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }
