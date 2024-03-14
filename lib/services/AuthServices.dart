@@ -61,7 +61,7 @@ class AuthServices {
     return Cuser.fromJson(userData.data()!);
   }
 
-  User? get user => auth.currentUser; //pour recuperer l'utilisateur courant
+  User? get user => auth.currentUser;
 
   saveUser(Cuser user) async {
     try {
@@ -69,10 +69,10 @@ class AuthServices {
     } catch (e) {}
   }
 
-  saveUserLocally(Cuser user) {
-    storage.write("role", user.role);
+  Future<void> saveUserLocally(Cuser user) async {
+    await storage.write("role", user.role);
 
-    storage.write("user", {
+    await storage.write("user", {
       'uid': user.uid,
       'name': user.name,
       'email': user.email,
@@ -81,6 +81,7 @@ class AuthServices {
       'lastName': user.lastName,
       'countryId': user.country,
     });
+    print('saving values');
   }
 
   logOut(BuildContext context) {

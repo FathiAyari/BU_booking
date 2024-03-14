@@ -2,27 +2,27 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:umbrella/presentation/admin/my_clients.dart';
 import 'package:umbrella/presentation/client/beach.dart';
-import 'package:umbrella/presentation/client/my_bookings.dart';
 import 'package:umbrella/presentation/client/profile.dart';
 import 'package:umbrella/presentation/ressources/colors.dart';
 
-class HomeClient extends StatefulWidget {
-  const HomeClient({Key? key}) : super(key: key);
+class HomeAdmin extends StatefulWidget {
+  const HomeAdmin({Key? key}) : super(key: key);
 
   @override
-  State<HomeClient> createState() => _HomeClientState();
+  State<HomeAdmin> createState() => _HomeAdminState();
 }
 
-class _HomeClientState extends State<HomeClient> {
-  List<Widget> pages = [Beach(), MyBookings(), MyProfile()];
+class _HomeAdminState extends State<HomeAdmin> {
+  List<Widget> pages = [Beach(), MyClients(), MyProfile()];
   List<BottomNavigationBarItem> items = [
     BottomNavigationBarItem(
         icon: Icon(
           Icons.beach_access_outlined,
         ),
         label: "Files"),
-    BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: "Mes reservations"),
+    BottomNavigationBarItem(icon: Icon(Icons.groups), label: "Mes clients"),
     BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: "Profile"),
   ];
   int currentIndex = 0;

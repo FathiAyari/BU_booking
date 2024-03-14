@@ -172,26 +172,23 @@ class _LoginScreenState extends State<SignInScreen> {
                                               .signIn(emailController.text, passwordController.text)
                                               .then((value) async {
                                             if (value) {
-                                              setState(() {
-                                                isLoading = false;
-                                              });
                                               AuthServices().getUserData().then((value) {
-                                                AuthServices().saveUserLocally(value);
-                                                if (value.role == 'client') {
-                                                  print("here a client ");
-                                                  if (value.status != 1) {
-                                                    Navigator.pushNamed(context, AppRouting.deletedAccount);
+                                                AuthServices().saveUserLocally(value).then((value2) {
+                                                  if (value.role == 'client') {
+                                                    if (value.status != 1) {
+                                                      Navigator.pushNamed(context, AppRouting.deletedAccount);
+                                                    } else {
+                                                      Navigator.pushNamed(context, AppRouting.homeClient);
+                                                    }
                                                   } else {
-                                                    Navigator.pushNamed(context, AppRouting.homeClient);
+                                                    Get.toNamed(AppRouting.homeAdmin);
                                                   }
-                                                } else {
-                                                  Get.toNamed(AppRouting.homeAdmin);
-                                                }
+                                                  setState(() {
+                                                    isLoading = false;
+                                                  });
+                                                });
                                               });
                                             } else {
-                                              setState(() {
-                                                isLoading = false;
-                                              });
                                               SnackBars(
                                                       label: "Verifier l'email et le mot de passe",
                                                       type: SnackBarsTypes.alert,
@@ -199,6 +196,10 @@ class _LoginScreenState extends State<SignInScreen> {
                                                       actionLabel: "Fermer",
                                                       context: context)
                                                   .showSnackBar();
+                                              setState(() {
+                                                print('set value');
+                                                isLoading = false;
+                                              });
                                             }
                                           });
                                         }
