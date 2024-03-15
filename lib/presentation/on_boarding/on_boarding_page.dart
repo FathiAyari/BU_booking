@@ -19,17 +19,17 @@ int currentPage = 0;
 List<Content> contentList = [
   Content(
     img: 'assets/lotties/on1.json',
-    description: 'êtes-vous intéressé par le camping en Tunisie? ',
+    description: 'Êtes-vous fatigués de chercher un parasol disponible ? ',
     title: 'Bienvenue chez ParaZone ',
   ),
   Content(
     img: 'assets/lotties/on2.json',
-    description: 'Nous vous proposons un guide et  un espace de partge de vous experience en camping ',
+    description: "Nous vous proposons l'application mobile ParaZone pour faciliter la tâche.",
     title: '',
   ),
   Content(
     img: 'assets/lotties/on3.json',
-    description: 'Avec Campino vous êtes libre de vendre et acheter des equipement de camping en ligne',
+    description: 'Rejoignez-nous dès maintenant et explorez notre application.',
     title: '',
   )
 ];

@@ -45,6 +45,7 @@ dependencies:
   country_picker: ^2.0.25
   intl: ^0.19.0
   fluttertoast: ^8.2.4
+  azlistview: ^2.0.0
 
 dev_dependencies:
   flutter_test:

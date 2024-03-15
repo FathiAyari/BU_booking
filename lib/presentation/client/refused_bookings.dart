@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
@@ -94,6 +95,23 @@ class _RefusedBookingsState extends State<RefusedBookings> {
                                   "Fauteuils :${bc[index].sofa}",
                                   style: TextStyle(color: Colors.white, fontSize: 20),
                                 ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: ElevatedButton(onPressed: (){
+                                        FirebaseFirestore.instance.collection("booking").doc(bc[index].id).delete();
+                                      },
+                                      
+                                          style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red,
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                          ),
+                                          child: Text("Supprimer",style: TextStyle(
+                                        color: Colors.white
+                                      ),)),
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
                           ),

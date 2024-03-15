@@ -7,11 +7,13 @@ class Cuser {
   String country;
   String phoneNumber;
   int status;
+  DateTime? createdAt;
 
   Cuser({
     required this.uid,
     required this.name,
     required this.status,
+     this.createdAt,
     required this.lastName,
     required this.email,
     required this.role,
@@ -28,6 +30,7 @@ class Cuser {
       'email': email,
       'role': role,
       'country': country,
+      'createdAt': DateTime.now(),
       'phoneNumber': phoneNumber,
     };
   }
@@ -37,6 +40,7 @@ class Cuser {
       uid: json['uid'],
       status: json['status'],
       name: json['name'],
+      createdAt: json['createdAt'].toDate(),
       lastName: json['lastName'],
       email: json['email'],
       role: json['role'],

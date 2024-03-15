@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:umbrella/presentation/ressources/colors.dart';
 import 'package:umbrella/presentation/ressources/dimensions/constants.dart';
 
 class InputField extends StatefulWidget {
@@ -51,10 +52,11 @@ class _InputFieldState extends State<InputField> {
               ),
             ),
             prefixIcon: widget.prefixWidget,
+            prefixIconColor: AppColors.primary,
             suffixIcon: widget.textInputType == TextInputType.visiblePassword
                 ? GestureDetector(
                     child: obscurePassword
-                        ? Icon(Icons.visibility, color: Colors.indigo)
+                        ? Icon(Icons.visibility, color: AppColors.primary)
                         : Icon(Icons.visibility_off, color: Colors.grey),
                     onTap: () {
                       setState(() {
@@ -70,13 +72,13 @@ class _InputFieldState extends State<InputField> {
               borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide(
                 width: 2.0,
-                color: Colors.indigo.withOpacity(0.5),
+                color: AppColors.primary.withOpacity(0.5),
               ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide(
-                color: Colors.indigo,
+                color: AppColors.primary,
                 width: 2.0,
               ),
             ),

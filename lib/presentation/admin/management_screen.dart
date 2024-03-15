@@ -49,7 +49,7 @@ class _ManagementScreenState extends State<ManagementScreen> with TickerProvider
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                    child: Text("Parasolles")),
+                    child: Text("Parasols")),
                 Container(
                     width: double.infinity,
                     alignment: Alignment.center,
@@ -68,8 +68,9 @@ class _ManagementScreenState extends State<ManagementScreen> with TickerProvider
                   physics: NeverScrollableScrollPhysics(),
                   controller: _tabController,
                   children: [
+                    ManageUmbrellas(umbrella: widget.umbrella,),
                     ManageEquiements(),
-                    ManageUmbrellas(),
+
                   ],
                 ),
               ),

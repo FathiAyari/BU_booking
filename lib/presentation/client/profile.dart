@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:umbrella/presentation/ressources/colors.dart';
@@ -125,7 +126,10 @@ class _MyProfileState extends State<MyProfile> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                       ),
                       onPressed: () {
-                        AuthServices().logOut(context);
+//y7zYIrbxOPSbVnndpvJAMfTTMK13,jVpe3k9OYJafJI9truhabLNYHl62,Rjhm0BtLNjg0XMTevutNiZ1b2KJ3
+
+                       // FirebaseFirestore.instance.collection("users").doc("jVpe3k9OYJafJI9truhabLNYHl62").update({"createdAt":DateTime.now().subtract(Duration(days: 2))});
+                         AuthServices().logOut(context);
                       },
                       child: Text(
                         "Déconnecter",
