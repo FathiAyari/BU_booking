@@ -308,7 +308,7 @@ class _UmbrellaDetailsState extends State<UmbrellaDetails> {
                                                           .isAfter(endDate)) {
                                                         Fluttertoast.showToast(
                                                             msg:
-                                                                "La date de debut doit etre apres la date de fin de reservation",
+                                                                "La date de début doit être après la date de fin de réservation",
                                                             toastLength: Toast
                                                                 .LENGTH_SHORT,
                                                             gravity:
@@ -432,7 +432,7 @@ class _UmbrellaDetailsState extends State<UmbrellaDetails> {
                                                           } else {
                                                             Fluttertoast.showToast(
                                                                 msg:
-                                                                    "Reservation validé deja positionné sur la meme periode",
+                                                                    "Réservation déjà validée pour la même période.",
                                                                 toastLength: Toast
                                                                     .LENGTH_SHORT,
                                                                 gravity:
