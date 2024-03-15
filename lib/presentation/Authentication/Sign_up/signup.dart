@@ -136,7 +136,6 @@ class _SignupScreenState extends State<SignupScreen> {
                                       context: context,
                                       showPhoneCode: true,
                                       onSelect: (Country country) {
-                                        print('Select country: ${country.flagEmoji}');
                                         setState(() {
                                           selectedCountry = country;
                                         });
@@ -146,7 +145,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   child: Text(
                                     selectedCountry == null
                                         ? "Selectionner le pays "
-                                        : selectedCountry!.flagEmoji + selectedCountry!.displayName,
+                                        : selectedCountry!.displayName + selectedCountry!.flagEmoji,
                                     style: TextStyle(color: Colors.white),
                                   )),
                             ),

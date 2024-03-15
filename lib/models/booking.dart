@@ -7,11 +7,13 @@ class Booking {
   String umbrellaId;
   num totalPrice;
   String clientId;
+  String id;
   int status;
 
   Booking({
     required this.startDate,
     required this.status,
+    required this.id,
     required this.clientId,
     required this.DepositDate,
     required this.endDate,
@@ -27,6 +29,7 @@ class Booking {
       endDate: json['endDate'].toDate(),
       DepositDate: json['DepositDate'].toDate(),
       umbrellaId: json['umbrellaId'],
+      id: json['id'],
       sofa: json['sofa'],
       bed: json['bed'],
       status: json['status'],
@@ -42,6 +45,7 @@ class Booking {
       'clientId': clientId,
       'sofa': sofa,
       'bed': bed,
+      'id': id,
       'DepositDate': DepositDate,
       'umbrellaId': umbrellaId,
       'totalPrice': totalPrice,
