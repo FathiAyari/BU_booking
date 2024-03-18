@@ -20,7 +20,7 @@ List<Content> contentList = [
   Content(
     img: 'assets/lotties/on1.json',
     description: 'Êtes-vous fatigués de chercher un parasol disponible ? ',
-    title: 'Bienvenue chez ParaZone ',
+    title: 'Bienvenue chez Sunset View',
   ),
   Content(
     img: 'assets/lotties/on2.json',
