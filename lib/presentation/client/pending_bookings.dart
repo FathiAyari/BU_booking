@@ -69,7 +69,7 @@ class _PendingBookingsState extends State<PendingBookings> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Code de parasolle  :${tt.idUmbrella} ",
+                                              "Code de parasol  :${tt.idUmbrella} ",
                                               style: TextStyle(color: Colors.white, fontSize: 20),
                                             ),
                                             Text(

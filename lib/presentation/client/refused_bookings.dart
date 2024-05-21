@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
@@ -68,7 +67,7 @@ class _RefusedBookingsState extends State<RefusedBookings> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Code de parasolle  :${tt.idUmbrella} ",
+                                              "Code de parasol  :${tt.idUmbrella} ",
                                               style: TextStyle(color: Colors.white, fontSize: 20),
                                             ),
                                             Text(
@@ -98,17 +97,18 @@ class _RefusedBookingsState extends State<RefusedBookings> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: ElevatedButton(onPressed: (){
-                                        FirebaseFirestore.instance.collection("booking").doc(bc[index].id).delete();
-                                      },
-                                      
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            FirebaseFirestore.instance.collection("booking").doc(bc[index].id).delete();
+                                          },
                                           style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.red,
+                                            backgroundColor: Colors.red,
                                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                           ),
-                                          child: Text("Supprimer",style: TextStyle(
-                                        color: Colors.white
-                                      ),)),
+                                          child: Text(
+                                            "Supprimer",
+                                            style: TextStyle(color: Colors.white),
+                                          )),
                                     ),
                                   ],
                                 )

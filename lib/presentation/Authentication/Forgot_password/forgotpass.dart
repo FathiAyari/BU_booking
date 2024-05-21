@@ -103,7 +103,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
                                           });
                                           if (value) {
                                             SnackBars(
-                                                    label: "Conslter votre mail",
+                                                    label: "Consulter votre mail",
                                                     type: SnackBarsTypes.success,
                                                     onTap: () {},
                                                     actionLabel: "Fermer",

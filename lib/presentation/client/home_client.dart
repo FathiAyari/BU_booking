@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:umbrella/presentation/client/beach.dart';
 import 'package:umbrella/presentation/client/my_bookings.dart';
+import 'package:umbrella/presentation/client/my_notifications.dart';
 import 'package:umbrella/presentation/client/profile.dart';
 import 'package:umbrella/presentation/ressources/colors.dart';
 
@@ -15,7 +16,7 @@ class HomeClient extends StatefulWidget {
 }
 
 class _HomeClientState extends State<HomeClient> {
-  List<Widget> pages = [Beach(), MyBookings(), MyProfile()];
+  List<Widget> pages = [Beach(), MyBookings(), MyNotifications(), MyProfile()];
   List<BottomNavigationBarItem> items = [
     BottomNavigationBarItem(
         icon: Icon(
@@ -23,6 +24,7 @@ class _HomeClientState extends State<HomeClient> {
         ),
         label: "Files"),
     BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: "Mes reservations"),
+    BottomNavigationBarItem(icon: Icon(Icons.notifications), label: "Notifications"),
     BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: "Profile"),
   ];
   int currentIndex = 0;

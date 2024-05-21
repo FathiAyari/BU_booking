@@ -69,7 +69,7 @@ class _ConfirmedBookingsState extends State<ConfirmedBookings> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Code de parasolle  :${tt.idUmbrella} ",
+                                              "Code de parasol  :${tt.idUmbrella} ",
                                               style: TextStyle(color: Colors.white, fontSize: 20),
                                             ),
                                             Text(

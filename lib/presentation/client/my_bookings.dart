@@ -47,7 +47,7 @@ class _MyBookingsState extends State<MyBookings> with TickerProviderStateMixin {
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
                       child: Text("En cours")),
                   Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
                       child: Text(" Confirmés")),
                 ],

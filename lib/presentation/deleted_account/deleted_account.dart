@@ -15,7 +15,7 @@ class DeletedAccount extends StatelessWidget {
             children: [
               Container(height: Constants.screenHeight * 0.5, child: Lottie.asset("assets/lotties/alert2.json")),
               Text(
-                "Votre compte a été supprimé par un administrateur veuillez deconnecter",
+                "Votre compte a été supprimé par un administrateur veuillez vous déconnecter",
                 textAlign: TextAlign.center,
               ),
               Spacer(),
@@ -34,7 +34,7 @@ class DeletedAccount extends StatelessWidget {
                         AuthServices().logOut(context);
                       },
                       child: Text(
-                        "Deconnecter",
+                        "Se déconnecter",
                         style: TextStyle(color: Colors.white),
                       )),
                 ),

@@ -28,7 +28,7 @@ class Content extends StatelessWidget {
                   style: TextStyle(color: AppColors.primary, fontSize: 30),
                 ),
               ),
-              Lottie.asset(img, height: Constants.screenHeight * 0.3),
+              Lottie.asset(img, height: Constants.screenHeight * 0.25),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: Constants.screenHeight * 0.05, horizontal: Constants.screenWidth * 0.03),
                 child: Text(

@@ -31,7 +31,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
@@ -45,6 +44,7 @@ dependencies:
   country_picker: ^2.0.25 # choisir un pays
   intl: ^0.19.0 # formatage de date et temps en flutter
   fluttertoast: ^8.2.4 # est une package pour afficher des messages toast
+  flutter_slidable: ^3.1.0
 
 dev_dependencies:
   flutter_test:
